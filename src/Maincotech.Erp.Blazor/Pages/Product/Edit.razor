@@ -1,0 +1,100 @@
+﻿@page "/products/edit"
+@page "/products/edit/{Id}"
+@inherits RuiComponentBase<ProductViewModel>
+
+<AntDesign.Pro.Layout.PageContainer Title="@L["Product.Edit.Title"]">
+    <Breadcrumb>
+        <Breadcrumb>
+            <BreadcrumbItem>Home</BreadcrumbItem>
+            <BreadcrumbItem>@L["Breadcrumb.Products"]</BreadcrumbItem>
+            <BreadcrumbItem>@L["Breadcrumb.Products.Edit"]</BreadcrumbItem>
+        </Breadcrumb>
+    </Breadcrumb>
+    <ChildContent>
+
+        <Form Model="ViewModel" Loading="IsLoading" OnFinish="async(ctx) => await OnFinish(ctx)" OnFinishFailed="OnFinishFailed">
+
+            <Row Gutter="24">
+                <AntDesign.Col Span="18" Style="margin-bottom: 24px;">
+                    <FormItem Label="@L["Product.Edit.Name"]">
+                        <Input Placeholder="@L["Placeholder.InputTitle"]" @bind-Value="context.Name" />
+                    </FormItem>
+                    <FormItem Label="@L["Product.Edit.Summary"]">
+                        <TextArea Placeholder="@L["Placeholder.InputSummary"]" MaxRows="5" @bind-Value="@context.Summary" />
+                    </FormItem>
+                    <Row Gutter="18">
+                        <AntDesign.Col Span="6">
+                            <FormItem Label="@L["Product.Edit.Category"]">
+                                <Cascader ChangeOnSelect="true" @bind-Value="@context.CategoryId" Options="@context.Categories"></Cascader>
+                            </FormItem>
+                        </AntDesign.Col>
+                        <AntDesign.Col Span="6">
+                            <FormItem Label="@L["Product.Edit.Tags"]">
+                                @if (ViewModel.IsLoaded)
+                                {
+                                    <Select Mode="tags"
+                                            @bind-Value="context.Tags"
+                                            DefaultValue="context.CurrentTags"
+                                            Style="width: 100%"
+                                            Placeholder="@L["Placeholder.InputTags"]">
+                                        @foreach (var item in ViewModel.AllTags)
+                                        {
+                                            <SelectOption Value="@item">@item</SelectOption>
+                                        }
+                                    </Select>
+                                }
+                            </FormItem>
+                        </AntDesign.Col>
+
+                        <AntDesign.Col Span="6">
+                            <FormItem Label="@L["Product.Edit.Recommended"]">
+                                <Checkbox @bind-Value="context.IsRecommended" />
+                            </FormItem>
+                        </AntDesign.Col>
+                    </Row>
+                    <Editor @bind-Value="context.MarkdownDescription" @bind-Html="context.HtmlDescription" Mode="wysiwyg" MinHeight="500" Options="@EditorOptions" />
+                    <Space />
+
+                    <FormItem>
+                        <Button OnClick="async() => await ExportAsync()">
+                            @L["Button.Export"]
+                        </Button>
+                        <Button Type="@ButtonType.Primary" HtmlType="submit">
+                            @L["Button.Save"]
+                        </Button>
+                        <Button OnClick="Cancel">
+                            @L["Button.Cancel"]
+                        </Button>
+                    </FormItem>
+                </AntDesign.Col>
+                <AntDesign.Col Span="6" Style="margin-bottom: 24px;">
+                    <Card Title="@L["Product.Edit.Images"]">
+                        <Upload Action="@Options.JqueryUpload"
+                                Name="images"
+                                @bind-FileList="ViewModel.Images"
+                                ShowButton="ViewModel.Images?.Count < 5"
+                                OnRemove="HandleRemove"
+                                ListType="picture-card"
+                                OnPreview="(file)=> {
+                           previewVisible = true;
+                           previewTitle = file.FileName;
+                           imgUrl = file.Url;
+                       }"
+                                OnChange="HandleChange"
+                                BeforeUpload="BeforeUpload">
+                            <div>
+                                <Icon Type="plus"></Icon>
+                                <div className="ant-upload-text">Upload</div>
+                            </div>
+                        </Upload>
+                        <Modal Visible="previewVisible"
+                               Title="previewTitle"
+                               OnCancel="()=> previewVisible=false">
+                            <img style="width: 100%" src="@imgUrl" />
+                        </Modal>
+                    </Card>
+                </AntDesign.Col>
+            </Row>
+        </Form>
+    </ChildContent>
+</AntDesign.Pro.Layout.PageContainer>

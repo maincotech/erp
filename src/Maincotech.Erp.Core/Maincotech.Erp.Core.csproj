@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Maincotech.Erp</RootNamespace>
+    <Authors>Minghao Li</Authors>
+    <Company>Maincotech</Company>
+    <Description>ERP core libs</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/maincotech/erp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/maincotech/erp</RepositoryUrl>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Maincotech.Cms.Core" Version="1.0.1" />
+    <PackageReference Include="Maincotech.Core" Version="1.0.6" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <RootNamespace>Maincotech.Erp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\en-US.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\en-US.json" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Maincotech.Blazor" Version="1.0.1" />
+    <PackageReference Include="Maincotech.Cms.Blazor" Version="1.0.1" />
+    <PackageReference Include="Maincotech.Web.Components" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.9" />
+    <PackageReference Include="ReactiveUI" Version="12.1.5" />
+    <PackageReference Include="ReactiveUI.Blazor" Version="12.1.5" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Maincotech.Erp.Core\Maincotech.Erp.Core.csproj" />
+  </ItemGroup>
+
+</Project>

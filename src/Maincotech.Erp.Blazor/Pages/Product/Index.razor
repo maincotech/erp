@@ -1,0 +1,82 @@
+﻿@page "/products"
+@inherits RuiComponentBase<IndexViewModel>
+
+<AntDesign.Pro.Layout.PageContainer Title="@L["Product.Index.ProductList"]">
+    <Breadcrumb>
+        <Breadcrumb>
+            <BreadcrumbItem>Home</BreadcrumbItem>
+            <BreadcrumbItem>@L["Breadcrumb.Products"]</BreadcrumbItem>
+        </Breadcrumb>
+    </Breadcrumb>
+    <Content>
+        <div style="text-align: center;">
+            <Search Placeholder="@L["Placeholder.SearchInput"]"
+                    EnterButton="@L["Button.Search"]"
+                    @bind-Value="ViewModel.SearchText"
+                    Size="large"
+                    Style="max-width: 522px; width: 100%;" OnSearch="Search" />
+        </div>
+    </Content>
+    <ExtraContent>
+        <div class="extraImg">
+            <img alt="这是一个标题"
+                 src="https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png" />
+        </div>
+    </ExtraContent>
+    <ChildContent>
+        <Card>
+            <Form Model="ViewModel" Loading="ViewModel.IsLoadingCategories"
+                  Layout="inline">
+                <StandardFormRow Title="@L["Product.Index.ParentCategory"]" Block Style="padding-bottom: 11px">
+                    <FormItem>
+                        <TagSelect CollapseText="@L["Button.Collapse"]" ExpandText="@L["Button.Expand"]" SelectAllText="@L["Button.SelectAll"]" Expandable Value="ViewModel.SelectedCategories" OnValueChanged="(values) => Search()">
+                            @foreach (var item in ViewModel.Categories)
+                            {
+                                <TagSelectOption Value="@item.Id.ToString()" Tooltip="@item.Description">@item.Name</TagSelectOption>
+                            }
+                        </TagSelect>
+                    </FormItem>
+                </StandardFormRow>
+            </Form>
+        </Card>
+        <Card>
+            <ChildContent>
+                <Skeleton Loading="IsLoading">
+                    <Button Type="dashed" Style="width: 100%; margin-bottom: 8px;" OnClick="Create">
+                        <Icon Type="plus" Theme="outline" />@L["Button.Add"]
+                    </Button>
+                    <AntList TItem="ProductViewModel"
+                             Grid="_listGridType"
+                             DataSource="ViewModel.Items">
+                        <ListItem NoFlex Grid="_listGridType">
+                            <Card Class="card" Hoverable Bordered>
+                                <Cover>
+                                    <img alt="@context.Name" src="@context.CoverUrl" />                                       
+                                </Cover>
+                                <ChildContent>
+                                    <CardMeta>
+                                        <DescriptionTemplate>@context.Summary</DescriptionTemplate>
+                                        <TitleTemplate>
+                                            <a href="@GetEditLink(context.Id)">@context.Name</a>
+                                        </TitleTemplate>
+                                    </CardMeta>    
+                                    @if(context?.CurrentTags.IsNotNullOrEmpty() == true)
+                                    {
+                                <div class="tags">
+                                    @foreach (var tag in context.CurrentTags)
+                                    {
+                                        <Tag>@tag</Tag>
+                                    }
+                                </div>
+                                    }
+                                    
+                                </ChildContent>
+                            </Card>
+                        </ListItem>
+                    </AntList>
+                    <Pagination PageIndex="ViewModel.PageNumber" Total="ViewModel.Total" PageSize="ViewModel.PageSize" OnPageIndexChange="(index) =>Search()"></Pagination>
+                </Skeleton>
+            </ChildContent>
+        </Card>
+    </ChildContent>
+</AntDesign.Pro.Layout.PageContainer>
