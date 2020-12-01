@@ -4,6 +4,12 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <RootNamespace>Maincotech.Erp</RootNamespace>
+    <Authors>Minghao Li</Authors>
+    <Company>Maincotech</Company>
+    <Description>ERP UI libs</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/maincotech/erp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/maincotech/erp</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
